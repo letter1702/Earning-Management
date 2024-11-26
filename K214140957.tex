@@ -1,0 +1,454 @@
+\documentclass[a4paper]{article}
+\usepackage{vntex}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}						
+\usepackage{array}
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usepackage{listings}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usepackage{hyperref}
+\hypersetup{urlcolor=black,linkcolor=black,citecolor=black,colorlinks=true} 
+\usepackage{setspace}
+
+\newtheorem{theorem}{{\bf Định lý}}
+\newtheorem{property}{{\bf Tính chất}}
+\newtheorem{proposition}{{\bf Mệnh đề}}
+\newtheorem{corollary}[proposition]{{\bf Hệ quả}}
+\newtheorem{lemma}[proposition]{{\bf Bổ đề}}
+
+\everymath{\color{black}}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=10mm, height=10mm]{UEL.png}}
+   \end{picture}&
+	\begin{tabular}{l}
+		\textbf{\bf \ttfamily Trường Đại Học Kinh tế - Luật}\\
+		\textbf{\bf \ttfamily Khoa Tài chính - Ngân hàng}
+	\end{tabular} 	
+ \end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+	\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[R]{\scriptsize \ttfamily Trang {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Matlab,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{black},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+	numbers=left,
+	stepnumber=1,
+	numbersep=1pt,    
+	firstnumber=1,
+	numberfirstline=true
+}
+\usepackage{indentfirst}
+\renewcommand{\baselinestretch}{1.5}
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH \\
+TRƯỜNG ĐẠI HỌC KINH TẾ - LUẬT \\
+KHOA TÀI CHÍNH - NGÂN HÀNG 
+\end{center}
+
+\vspace{1cm}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=5cm]{UEL.png}
+\end{center}
+\end{figure}
+
+\vspace{1cm}
+
+
+\begin{center}
+\begin{tabular}{c}
+	\multicolumn{1}{l}{\textbf{{\Large ĐỒ ÁN CUỐI KỲ}}}\\
+	~~\\
+	\hline
+	\\
+	\multicolumn{1}{l}{\textbf{{\Large Môn: Gói phần mềm ứng dụng cho tài chính 2}}}\\
+	\\
+	
+	\textbf{{\Large Quản trị lợi nhuận (Earning Management)}}\\
+	\\
+	\hline
+\end{tabular}
+\end{center}
+
+\vspace{3cm}
+
+\begin{table}[h]
+\begin{tabular}{rrl}
+\hspace{5 cm} & GVHD: & Ngô Phú Thanh\\
+& SV: & Võ Minh Thư\\
+& MSSV: & K214140957\\
+\end{tabular}
+\end{table}
+
+\begin{center}
+{\footnotesize TP. HỒ CHÍ MINH, 2024}
+\end{center}
+\end{titlepage}
+
+
+\thispagestyle{empty}
+\tableofcontents
+\pagenumbering{roman}
+\clearpage
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+\clearpage
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\renewcommand{\arraystretch}{1.5}
+
+\section{Đặt vấn đề}
+Quản trị lợi nhuận (earnings management - EM) là sự điều chỉnh lợi nhuận để đạt được mục tiêu đã đặt ra trước đó của nhà quản lý (Vân, 2013). Nó là “một sự can thiệp có tính toán kỹ lưỡng trong quá trình cung cấp thông tin tài chính nhằm đạt được những mục đích cá nhân”. Levitt (1998) định nghĩa quản trị lợi nhuận là một mảng tối mà ở đó, kế toán đã bị làm sai do nhà quản trị đã “cắt gọt” các khía cạnh của nó. Vì vậy, báo cáo kết quả kinh doanh phản ánh mong muốn của nhà quản trị hơn là phản ánh tình hình tài chính thực của doanh nghiệp. Các định nghĩa trên đưa ra khái niệm nhưng có phần nhấn mạnh thái quá đến mặt tiêu cực của quản trị lợi nhuận nên đã được thay thế dần bởi một quan điểm toàn diện hơn của Healy và Wahlen (1999), “quản trị lợi nhuận xảy ra khi nhà quản lý sử dụng xét đoán khi lập và trình bày BCTC hoặc thay đổi cấu trúc hoạt động của doanh nghiệp nhằm làm cho các đối tượng sử dụng thông tin trên BCTC hiểu sai về hiệu quả kinh doanh của công ty hoặc tác động đến các hợp đồng mà có cam kết dựa trên chỉ tiêu lợi nhuận kế toán (ví dụ như hợp đồng tín dụng với ngân hàng hoặc hợp đồng thù lao giữa nhà quản trị và công ty)”.\\
+\indent Đặc biệt trong kỉ nguyên công nghệ số với sự lên ngôi và phổ biến rộng rãi của Internet, mức độ ảnh hưởng của thông tin là rất lớn đối với người sử dụng trong việc ra quyết định đầu tư. Có thể thấy một thực tế rằng, các doanh nghiệp hiện nay đang đối mặt với ngày càng nhiều thách thức và cạnh tranh trong hoạt động doanh nghiệp, bởi vậy nhiều doanh nghiệp sẵn sàng thực hiện hành vi quản trị lợi nhuận, điều chỉnh kết quả hoạt động kinh doanh nhằm đạt được các chỉ tiêu về lợi nhuận, tỷ lệ nợ trong một giai đoạn kế toán nhất định, từ đó, gián tiếp tác động lên quyết định của các cổ đông và nhà đầu tư.\\
+\indent Bên cạnh đó, về bản chất thì hành vi quản trị lợi nhuận tác động trực tiếp đến hiệu quả hoạt động doanh nghiệp khi tác động đến dòng tiền thực tế hoạt động, và bằng cách này hay cách khác, việc "tạm ứng dòng tiền trong tương lai" hay "gửi lại một phần lợi nhuận hiện tại" khiến doanh nghiệp đối mặt với những rủi ro tiềm ẩn trong hoạt động kinh doanh vì trong một chu kì khủng hoảng, việc điều chỉnh lợi nhuận dương trong nhiều kì liên tiếp là cách trực tiếp đẩy công ty lên bờ vực phá sản. Chính vì vậy, việc nghiên cứu mối quan hệ giữa quản trị lợi nhuận của doanh nghiệp là rất cần thiết, giúp doanh nghiệp hiểu rõ các nguy cơ tiềm ẩn nếu doanh nghiệp lạm dụng quản trị lợi nhuận.
+\section{Tổng quan nghiên cứu}
+Từ những quan điểm lý thuyết trước đây, các nghiên cứu hiện đại đã đưa ra các nhóm động cơ để giải thích hành vi quản trị lợi nhuận như sau:\\
+\indent - Động cơ tiền thưởng dành cho các nhà quản lý: theo Dechow \& cộng sự (1996), Healy \& Wahlen (1999), lợi ích từ các khoản tiền thưởng đã khiến các nhà quản lý gia tăng lợi nhuận để đạt đến mức tiền thưởng theo quy định trong hợp đồng, đặc biệt là các nhà quản lý mới được thuê sẽ có nhiều khả năng hơn trong việc điều chỉnh mức lợi nhuận thu được để tăng cơ hội nhận được tiền thưởng. Đây là một biểu hiện của lý thuyết đại diện khi các nhà quản lý hoạt động vì lợi ích của riêng mình.\\
+\indent - Động cơ hợp đồng nợ vay: các ngân hàng và chủ nợ thường xem xét báo cáo tài chính của công ty để đánh giá hiệu quả kinh doanh. Nếu công ty không đạt được các kết quả như đã cam kết ghi trong hợp đồng nợ vay thì sẽ chịu áp lực lớn từ các ngân hàng và chủ nợ trong việc cung cấp vốn. Dechow \& cộng sự (1995), DeAngelo \& cộng sự (1994), Healy \& Wahlen (1999) đã cung cấp bằng chứng cho thấy trong những năm trước khi vi phạm các điều khoản trong hợp đồng tín dụng, các công ty đã thực hiện các thao tác bằng việc điều chỉnh các quy trình kế toán nhằm làm gia tăng lợi nhuận so với mức lợi nhuận mà công ty đạt được.\\
+\indent - Động cơ thị trường vốn: các nhà quản lý công ty có xu hướng quản trị lợi nhuận theo hướng san bằng nhằm đạt được sự ổn định về lợi nhuận giữa các kỳ kế toán thể hiện mức độ bền vững của lợi nhuận trong dài hạn (Cohen \& Zarowin, 2010). Các công ty thường quản trị lợi nhuận khi thực hiện các hoạt động phát hành cổ phiếu, giao dịch mua bán, sáp nhập.\\
+\indent - Động cơ của bên thứ ba: do bên ngoài thúc đẩy các bên như các nhà đầu tư kỳ vọng vào sự hoạt động hiệu quả của công ty sẽ có ảnh hưởng đến chi phí truyền thông tin trên thị trường (Ronen \& Yaari, 2008; Walker, 2013). DeAngelo \& cộng sự (1994) cho biết, các công ty thua lỗ hoặc tăng trưởng lợi nhuận không ổn định sẽ có xu hướng thực hiện quản trị lợi nhuận để giảm chi phí giao dịch với các biên có liên quan và để đáp ứng các nhu cầu của nhà đầu tư.\\
+\indent Do đó, quản trị lợi nhuận có thể được định nghĩa là việc lạm dụng một số thiếu sót trong hợp đồng, sự ràng buộc của các bên hữu quan và thông tin bất cân xứng trên thị trường, thông qua một số quyết định kinh tế, thay đổi trong cách xử lý kế toán hoặc bằng các cách thức tinh vi khác để trình bày lợi nhuận theo cách khác (tăng hay giảm) so với những gì nhà quản lý biết để đạt được lợi ích riêng và che giấu các bên có liên quan. Trong quản trị lợi nhuận, dựa trên các tiêu chuẩn và quy tắc hoặc cấu trúc trao đổi theo cách mà giá trị
+công ty không bị suy giảm, các nhà quản lý sử dụng quyền của họ để thao túng lợi nhuận.
+\section{Dữ liệu và phương pháp nghiên cứu}
+\subsection{Dữ liệu}
+Các quan sát được nghiên cứu bao gồm thông tin tài chính theo từng năm của tất cả các doanh nghiệp niêm yết tại Sở Giao Dịch Chứng Khoán Hà Nội và Sở Giao Dịch Chứng Khoán TP Hồ Chí Minh mà dữ liệu có sẵn tại Trung Tâm Nghiên Cứu Kinh Tế và Tài Chính thuộc trường Đại Học Kinh Tế - Luật. Các doanh nghiệp trong ngành ngân hàng, chứng khoán, bảo hiểm bị loại khỏi mẫu vì các ngành này có quy định pháp luật và hoạt động riêng. Việc đưa những quan sát này vào sẽ làm giảm hiệu quả của mô hình. Các quan sát được lựa chọn thuộc giai đoạn từ năm 2014 đến năm 2023. Tổng cộng có 6.229 quan sát của 648 công ty cổ phần thỏa mãn các điều kiện đặt ra. Tùy thuộc vào các biến và yêu cầu dữ liệu trong từng mô hình hồi quy mà số lượng quan sát sẽ được điều chỉnh cho phù hợp.
+\subsection{Phương pháp nghiên cứu}
+\subsubsection{Đo lường các biến}
+\begin{enumerate}[a)]
+\item\textbf{Biến quản trị lợi nhuận}\\
+Có nhiều phương pháp để nhận diện và đo lường lợi nhuận thu được. Tuy nhiên, các nhà quản trị có xu hướng thực hiện hành vi quản trị nhuận lợi thông qua các khoản ngâm tích vì phương pháp này khó bị các bên hữu quan phát hiện (Jones, 1991, Dechow \& cộng sự, 1995, Kothari \& cộng sự thật, 2005). Do đó, các khoản tích lũy có thể điều chỉnh (các khoản dồn tích tùy ý) được sử dụng phổ biến trong các nghiên cứu trước đây để đo lường hành vi quản trị lợi nhuận.\\Nghiên  cứu  sử dụng  mô  hình  Modifed Jones được phát triển bởi Dechow \& cộng sự (1995) \cite{8} để đo lường hoạt động quản trị lợi nhuận.\\
+\begin{equation}
+\frac{TA_{i,t}}{ASSETS_{i,t-1}} = \alpha_1 \frac{1}{ASSETS_{i,t-1}} + \alpha_2 \frac{\Delta REV_{i,t} - \Delta REC_{i,t}}{ASSETS_{i,t-1}} + \alpha_3 \frac{PPE_{i,t}}{ASSETS_{i,t-1}} + \epsilon_{i,t}
+\end{equation}
+Trong đó: \\
+TA: Lợi nhuận sau thuế - Dòng tiền thuần từ hoạt động kinh doanh \\
+ASSETS: Tổng tài sản \\
+$\Delta REV$: Thay đổi doanh thu thuần \\
+$\Delta REC$: Thay đổi khoản phải thu \\
+PPE: Nguyên giá tài sản cố định hữu hình \\
+Sai số $\epsilon$ từ mô hình (1) là khoản dồn tích có thể điều chỉnh (DA) - thước đo cho hoạt động quản trị lợi nhuận. Cụ thể, DA của công ty $i$ được ước lượng cho từng năm $t$ theo từng nhóm ngành qua các bước sau:\\
+Bước 1: Xác định tổng biến kế toán dồn tích:\\
+\begin{equation}
+\frac{TA_{i,t}}{ASSETS_{i,t-1}}
+\end{equation}
+Bước 2: Tham số $a_1$, $a_2$, $a_3$ của từng công ty $i$ năm 1 được tính bằng ước lượng bình phương nhỏ nhất (OLS) của các hệ số $\alpha_1$, $\alpha_2$, $\alpha_3$ của mô hình (1) theo phương pháp dữ liệu chéo.\\
+Bước 3: Xác định biến kế toán dồn tích không thể điều chỉnh (NDA) bằng cách thế các tham số đã ước lượng ở bước 2 ($a_1$, $a_2$, $a_3$) vào mô hình sau:\\
+\begin{equation}
+\frac{NDA_{i,t}}{ASSETS_{i,t-1}} = \alpha_1 \frac{1}{ASSETS_{i,t-1}} + \alpha_2 \frac{\Delta REV_{i,t} - \Delta REC_{i,t}}{ASSETS_{i,t-1}} + \alpha_3 \frac{PPE_{i,t}}{ASSETS_{i,t-1}}
+\end{equation}
+Bước 4: Xác định biến kế toán dồn tích (DA) của công ty $i$ năm $t$ như sau:
+\begin{equation}
+DA_{i,t} = \frac{TA_{i,t}}{ASSETS_{i,t-1}} - \frac{NDA_{i,t}}{ASSETS_{i,t-1}}
+\end{equation}
+Trên thực tế, khoản dồn tích này có thể mang giá trị âm (khi công ty điều chỉnh giảm lợi nhuận) hoặc  dương (khi công ty thổi phòng lợi nhuận) tuỳ thuộc vào mục đích của nhà quản trị trong  kỳ.
+\item\textbf{Biến kiểm soát}\\
+Tương tự như các nghiên cứu trước đây về quản trị lợi nhuận, các biến phản ánh đặc điểm công ty cũng được kiểm soát trong mô hình, bao gồm:\\
+- ROA (Return On Assets). Tỷ suất sinh lời trên tài sản là một tỷ số tài chính quan trọng, đo lường hiệu quả sử dụng tài sản của doanh nghiệp trong việc tạo ra lợi nhuận. ROA cao thể hiện doanh nghiệp sử dụng tài sản hiệu quả, sinh lời tốt.\\
+- Dòng tiền từ hoạt động kinh doanh (OCF). Nghiên cứu của Dechow \& cộng sự (1995), Gul \& cộng sự (2009), đã chỉ ra rằng những  công ty có dòng tiền thuần từ hoạt động kinh doanh cao thì ít có khả năng quản trị lợi nhuận.\\
+- Đòn bẩy tài chính  (LEV). Bằng chứng thực nghiệm cho thầy rằng, các công ty có đòn bẩy tài chính cao có xu hướng quản trị lợi nhuận (DeFond \& Jiambalvo, 1994; Watts \& Zimmerman, 1990; Dechow \& cộng sự, 1996). Tuy  nhiên, theo nghiên cứu của Jelinek (2007), đòn bầy tài chính có mối tương quan nghịch với quản trị lợi nhuận.\\
+- Báo cáo lỗ (LOSS). Burgstahler \& Dichev (1997) cung cấp bằng chứng cho thấy công ty có khả năng điều chỉnh tăng lợi nhuận để tránh giảm thu nhập và thua lỗ hàng năm.\\
+- Tỷ lệ tăng trưởng tài sản (GA). Shen \& Chinh (2007), Campa và các cộng sự đã nghiên cứu ảnh hưởng của tỷ lệ tăng trưởng tài sản đến quản trị lợi nhuận và nhận thấy rằng các công ty có tỷ lệ tăng trưởng tài sản cao thường có xu hướng thực hiện quản trị lợi nhuận nhiều hơn.
+\end{enumerate}
+\subsubsection{Mô hình nghiên cứu}
+Để đánh giá các yếu tố ảnh hưởng đến quản trị lợi nhuận của các công ty, nghiên cứu sử dụng mô hình hồi quy như sau:
+\begin{equation}
+EM_{i,t} = \alpha_1 \ ROA_{i,t} + \alpha_2 \ OCF_{i,t} + \alpha_3 \ LEV_{i,t} + \alpha_4 \ LOSS_{i,t} + \alpha_5 \ GA_{i,t}+ \epsilon_{i,t}
+\end{equation}
+Định nghĩa chi tiết tất cả các biến được sử dụng trong mô hình (5) được tóm tắt trong Bảng $\ref{tb1}$.
+\begin{table}[h!]
+\centering\caption{Các biến được sử dụng trong mô hình nghiên cứu}
+\label{tb1}
+\begin{tabular}{lp{1.5cm}p{6.5cm}p{3cm}}
+\toprule
+Biến & Ký hiệu & Định nghĩa\\
+\midrule
+Hoạt động quản trị lợi nhuận & EM & Giá trị của biến dồn tích có thể điểu chỉnh (DA), được đo lường theo mô hình Modified Jones của Dechow và cộng sự (1995) \\
+Tỷ số lợi nhuận trên tài sản & ROA & Lợi nhuận sau thuế chia cho tổng tài sản \\
+Dòng tiền từ hoạt động kinh doanh & OCF & Dòng tiền thuần từ hoạt động kinh doanh chia tổng tài sản \\
+Đòn bẫy tài chính & LEV & Tổng nợ chia cho tổng tài sản \\
+Báo cáo lỗ & LOSS & Nhận giá trị là 1 nếu lợi nhuận sau thuế âm và 0 nếu lợi nhuận sau thuế dương \\
+Tỷ lệ tăng trưởng tài sản & GA & Lấy hiệu số tài sản của năm hiện tại và năm liền trước chia cho tài sản năm trước \\
+\bottomrule
+\end{tabular}
+\end{table}
+\subsubsection{Phương pháp ước lượng}
+Nghiên cứu sử dụng phương pháp ảnh hưởng cố định (Fixed Effect model) để hồi quy dữ liệu nghiên cứu, nhằm giảm thiểu tác động của vấn đề bỏ sót biến (omitted variables). Ảnh hưởng cố định năm cũng được kiểm soát trong mô hình. Ngoài ra, sai số chuẩn theo cụm công ty được sử dụng để ước lượng mô hình nhằm giải quyết hiện tượng phương sai không đồng nhất và tự tương quan khi tính giá trị thống kê t. Các biến kiểm soát được lấy tại năm t-1 để giảm thiểu hiện tượng nội sinh trong mô hình.
+
+\section{Kết quả nghiên cứu}
+\subsection{Thống kê mô tả dữ liệu mô hình và trực quan hóa dữ liệu}
+Bảng $\ref{tb2}$ thống kê chi tiết dữ liệu các biến được sử dụng trong mô hình trong giai đoạn 2015-2023. Có thể thấy giá trị trung bình của biến quản trị lợi nhuận là -0,12346, giá trị cao nhất là 9,06 trong khi giá trị thấp nhất là -16,41. Điều này cho thấy tại thị trường Việt Nam, các nhà quản trị có xu hướng điều chỉnh giảm lợi nhuận thay vì điều chỉnh tăng, nguyên nhân có thể từ các giao dịch ngầm hoặc tìm kiếm ưu đãi thuế.\\
+\begin{table}[h!]
+\centering\caption{Thống kê mô tả các biến nghiên cứu}
+\label{tb2}
+\begin{tabular}{lcccccc}
+\toprule
+Variable & Min & 1st Qu. & Median & Mean & 3rd Qu. & Max \\
+\midrule
+EM & -16.41222 & -0.24258 & -0.12180 & -0.12346 & -0.01817 & 9.06001 \\
+ROA & -0.89650 & 0.01538 & 0.04117 & 0.05358 & 0.07902 & 0.78280 \\
+OCF & -0.95922 & -0.00960 & 0.05927 & 0.06411 & 0.13924 & 1.85860 \\
+LEV & 0.00062 & 0.29738 & 0.47618 & 0.46952 & 0.64774 & 1.29499 \\
+LOSS & 0.00000 & 0.00000 & 0.00000 & 0.05591 & 0.00000 & 1.00000 \\
+GA & -0.84107 & -0.03643 & 0.04975 & 0.20059 & 0.18002 & 261.33545 \\
+\bottomrule
+\end{tabular}
+\end{table} \\
+\indent Trong giai đoạn này, tỷ lệ đòn bẫy tài chính trung bình của các doanh nghiệp là 46,952\% cho thấy hầu hết các doanh nghiệp duy trì một cơ cấu vốn khá hợp lý, với giá trị tổng tài sản gần gấp đôi giá trị vốn nợ. Bên cạnh đó dòng tiền từ hoạt động kinh doanh có giá trị trung bình 6,411\% khá tương đồng với tỷ suất sinh lời trên tài sản là 5,358\%, các chỉ số này khá hợp lý tại thị trường Việt Nam.\\
+\indent Bảng $\ref{tb3}$ cung cấp là một ma trận tương quan, thể hiện hệ số tương quan giữa các cặp biến số khác nhau. Biến quản trị lợi nhuận (EM) có mối quan hệ tương quan đáng kể nhất với dòng tiền từ hoạt động kinh doanh (OCF) với hệ số tương quan âm là -0.481. Hệ số tương quan âm mạnh, cho thấy quản trị lợi nhuận có mối quan hệ ngược chiều đáng kể với dòng tiền từ hoạt động kinh doanh. Điều này có nghĩa là khi quản trị lợi nhuận tăng, dòng tiền từ hoạt động kinh doanh giảm và ngược lại. Ngoài ra, hệ số tương quan giữa các biến đều thấp hơn 0,5. Do đó, có thể loại bỏ khả năng đa cộng tuyến trong các phân tích hồi quy của mô hình nghiên cứu.
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sat, Jun 01, 2024 - 11:48:19 PM
+\begin{table}[h!]
+\centering\caption{Hệ số tương quan giữa các biến sử dụng trong mô hình}
+\label{tb3}
+\begin{tabular}{lcccccc}
+\toprule
+ & EM & ROA & OCF & LEV & LOSS & GA \\ 
+\midrule
+EM & 1 & 0.013 & -0.481 & 0.040 & -0.040 & 0.178 \\ 
+ROA & 0.013 & 1 & 0.366 & -0.358 & -0.435 & -0.004 \\ 
+OCF & -0.481 & 0.366 & 1 & -0.199 & -0.087 & -0.046 \\ 
+LEV & 0.040 & -0.358 & -0.199 & 1 & 0.057 & 0.023 \\ 
+LOSS & -0.040 & -0.435 & -0.087 & 0.057 & 1 & -0.016 \\ 
+GA & 0.178 & -0.004 & -0.046 & 0.023 & -0.016 & 1 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+Để dễ dàng trực quan hóa bảng $\ref{tb3}$ ta có biểu đồ nhiệt giữa các biến ở Hình. $\ref{fig1}$ \\
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.6]{corrplot.png}\\
+\caption{Biểu đồ nhiệt giữa các biến} \label{fig1}
+\end{center}
+\end{figure}
+\\ \indent Bên cạnh đó, dữ liệu thống kê ở Hình. $\ref{fig2}$ cũng cho thấy tổng tài sản trung bình của các công ty niêm yết trong giai đoạn 2015 – 2023 có xu hướng gia tăng qua các năm. Năm 2015, trung bình tài sản của các công ty trên thị trường chứng khoán Việt Nam gần 2901 tỷ đồng thì đến năm 2021, tổng tài sản trung bình của 1 công ty tăng lên là 5865 tỷ đồng. Nghĩa là mất 6 năm để tổng tài sản trung bình gia tăng gấp đôi. Và tài sản trung bình vẫn tiếp tục tăng đều vượt mốc 7128 tỷ đồng vào năm 2023.
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.6]{ta.png}\\
+\caption{Tổng tài sản trung bình các công ty niêm yết giai đoạn 2015 - 2023} \label{fig2}
+\end{center}
+\end{figure}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.6]{LNST.png}\\
+\caption{Lợi nhuận trung bình các công ty niêm yết giai đoạn 2015 - 2023}
+ \label{fig3}
+\end{center}
+\end{figure}
+Cùng với xu hướng gia tăng của tổng tài sản trung bình, lợi nhuận trung bình của các công ty ở Hình. $\ref{fig3}$ cũng có xu hướng gia tăng mặc dù xu hướng không ổn định như sự gia tăng của tổng tài sản. Lợi nhuận sau thuế trung bình tăng lên từ năm 2015 đến năm 2019 đạt mức 241 tỷ đồng, sau đó giảm nhẹ trong năm 2020 còn 224 tỷ đồng và gia tăng đạt mức 301 tỷ đồng vào năm kếp tiếp (2021). Các năm sau lợi nhuận có xu hướng giảm dần.\\
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.6]{em_year.png}\\
+\caption{Biến động của hoạt động quản trị lợi nhuận tại Việt Nam từ 2015-2023} \label{fig4}
+\end{center}
+\end{figure}
+
+\indent Bên cạch đó dữ liệu thống kê mức độ quản trị lợi nhuận theo năm ở Hình. $\ref{fig4}$ cũng cho thấy nhiều biến động đáng kể. Hoạt động quản trị lợi  buận ở Việt Nam tăng giảm không đều và có xu hướng giảm. Đỉnh điểm vào năm 2019 mức độ quản trị lợi nhuận giảm sâu -16,2\% rồi tăng mạnh vào năm 2021 lên -7,5\% rồi lại tiếp tục giảm. Điều này cho thấy những năm gần đây Việt Nam đang trải qua những ảnh hưởng lớn từ các cuộc khủng hoảng kinh tế và có những các cách mạnh mẽ cả về đường lối chính sách lẫn tái cơ cấu nền kinh tế quốc gia.
+\subsection{Kết quả thực nghiệm}
+\subsubsection{Kết quả mô hình hồi quy}
+Kết quả hồi quy từ mô hình (5) được trình bày ở Bảng $\ref{tb4}$. Ta có thể thấy hệ số hồi quy của biến ROA là 1.049 và biến GA là 0.015, đều là hệ số dương và có ý nghĩa thống kê. Cho thấy rằng các công ty có lợi nhuận cao hơn và chi phí quản lý hành chính cao hơn thường có xu hướng quản trị lợi nhuận nhiều hơn. Biến OCF có hệ số âm (-1.161) và có ý nghĩa thống kê, cho thấy rằng các công ty có dòng tiền từ hoạt động cao hơn thường có xu hướng quản trị lợi nhuận ít hơn. LEV và LOSS không có ý nghĩa thống kê, cho thấy không có mối quan hệ rõ ràng giữa đòn bẩy tài chính hay báo cáo lỗ với quản trị lợi nhuận trong mẫu nghiên cứu này.
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, Jun 03, 2024 - 2:14:51 PM
+\begin{table}[!htbp] \centering 
+  \caption{Kết quả mô hình fixed effects} 
+  \label{tb4} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & EM \\ 
+\hline \\[-1.8ex] 
+ ROA & 1.049$^{***}$ \\ 
+  & (0.090) \\ 
+  & \\ 
+ OCF & $-$1.161$^{***}$ \\ 
+  & (0.032) \\ 
+  & \\ 
+ LEV & 0.037 \\ 
+  & (0.042) \\ 
+  & \\ 
+ LOSS & $-$0.002 \\ 
+  & (0.021) \\ 
+  & \\ 
+ GA & 0.015$^{***}$ \\ 
+  & (0.001) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 5,473 \\ 
+R$^{2}$ & 0.254 \\ 
+Adjusted R$^{2}$ & 0.154 \\ 
+F Statistic & 329.060$^{***}$ (df = 5; 4821) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+\\ \indent Những điều này cho thấy rằng các công ty tại Việt Nam có thể tập trung vào việc tăng lợi nhuận trên tài sản và quản lý chi phí hành chính để tăng cường quản trị lợi nhuận. Đồng thời, họ cũng nên chú trọng đến dòng tiền từ hoạt động kinh doanh, vì dòng tiền mạnh có thể giúp giảm thiểu quản trị lợi nhuận. Việc hiểu rõ những yếu tố này có thể giúp các nhà quản lý và nhà đầu tư đưa ra các quyết định tài chính hiệu quả hơn.
+
+\section{Ảnh hưởng của đại dịch Covid-19}
+\subsection{Tổng quan}
+Từ cuối năm 2019, "cú sốc" mang tên đại dịch Covid-19 đã và đang gây ảnh hưởng to lớn đến các nền kinh tế trên thế giới và làm gia tăng đáng kể sự bất ổn trong hoạt động kinh doanh của các công ty. Các nghiên cứu gần đây đã cho thấy rằng đại dịch Covid-19 làm suy giảm hiệu quả hoạt động của các công ty (Hu \& Zhang, 2021;Shen \& cộng sự, 2020; Bose \& cộng sự., 2021). Choi \& cộng sự (2011) lập luận rằng các nhà quản trị công ty có động cơ thổi phồng lợi nhuận trong giai đoạn khủng hoảng để che đậy tình hình tài chính yếu kém nhằm tránh nguy cơ phá sản. Tuy nhiên, theo Chen \& các cộng sự (2022), các công ty có khuynh hướng công bố những thông tin bất lợi (hoặc trì hoãn công bố thông tin tốt) vào thời điểm dịch  COVID-19 bùng  phát nghiêm trọng để hưởng lợi từ chính sách ưu đãi của chính phủ và người cho vay. Từ đó, có thể lập luận rằng, thay vì điều chỉnh tăng lợi nhuận, các công ty có khả năng điều chỉnh giảm lợi nhuận trong giai đoạn COVID-19 để được hưởng các gói hỗ trợ từ chính phủ.\\
+\indent Trong bối cảnh hội nhập sâu rộng với nền kinh tế toàn cầu, kinh tế Việt Nam cũng chịu sự tác động mạnh mẽ từ đại dịch COVID-19, kéo theo những ảnh hưởng tiêu cực đến quá trình hoạt động, tồn tại và phát triển của các doanh nghiệp Việt Nam. Hầu hết các ngành nghề đều đối mặt với sự khan hiếm về nguyên liệu sản xuất, xuất nhập khẩu hàng hoá gặp rất nhiều khó khăn.
+\subsection{Dữ liệu nghiên cứu}
+\begin{table}[h!]
+\centering
+\caption{Các biến trong mô hình \textit{(Nguồn: www.worldometers.info)}}
+\label{tb5}
+\begin{tabular}{lp{9cm}p{1cm}}
+\toprule
+Biến & Định nghĩa\\
+\midrule
+COVID\_19 & Nhận giá trị là 1 nếu năm quan sát là năm 2020 và 2021, nhận giá trị là 0 những năm còn lại \\
+Cases & Tổng số ca nhiễm COVID-19 trên tổng dân số trong năm 2020 và 2021 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\subsection{Kết quả mô hình}
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Sun, Jun 09, 2024 - 10:42:55 PM
+\begin{table}[!htbp] \centering 
+  \caption{Đại dịch COVID-19 và hoạt động quản trị lợi nhuận} 
+  \label{tb6} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-3} 
+\\[-3ex] & \multicolumn{2}{c}{EM} \\ 
+\\[-3ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ COVID\_19 & 0.008 &  \\ 
+  & (0.009) &  \\ 
+ Cases &  & 0.696$^{*}$ \\ 
+  &  & (0.416) \\ 
+ ROA & 1.052$^{***}$ & 1.050$^{***}$ \\ 
+  & (0.090) & (0.090) \\ 
+ OCF & $-$1.160$^{***}$ & $-$1.157$^{***}$ \\ 
+  & (0.032) & (0.032) \\ 
+ LEV & 0.038 & 0.040 \\ 
+  & (0.042) & (0.042) \\ 
+ LOSS & $-$0.001 & $-$0.001 \\ 
+  & (0.021) & (0.021) \\ 
+ GA & 0.015$^{***}$ & 0.015$^{***}$ \\ 
+  & (0.001) & (0.001) \\ 
+\hline \\[-1.8ex] 
+Observations & 5,473 & 5,473 \\ 
+R$^{2}$ & 0.255 & 0.255 \\ 
+Adjusted R$^{2}$ & 0.154 & 0.154 \\ 
+F Statistic (df = 6; 4820) & 274.343$^{***}$ & 274.783$^{***}$ \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+\newpage
+Dựa vào mô hình (1) của Bảng \ref{tb6} thấy biến COVID\_19 có hệ số hồi quy trong mô hình là 0.008. Giá trị p đi kèm là 0.379. Giá trị này lớn hơn mức ý nghĩa thông thường (0.05), do đó, chúng ta không thể kết luận rằng có mối quan hệ có ý nghĩa thống kê giữa biến COVID\_19 và quản trị lợi nhuận (EM). Mặc dù hệ số hồi quy dương cho thấy có một sự gia tăng nhẹ trong EM khi biến COVID\_19 là 1 ở năm 2020 và 2021, sự gia tăng này không đủ lớn để được coi là có ý nghĩa thống kê. Điều này có thể chỉ ra rằng đại dịch COVID-19, tự nó, không tạo ra sự thay đổi đáng kể trong quản trị lợi nhuận của các công ty trong mẫu.\\
+\indent Hệ số hồi quy của biến Cases trong mô hình (2) là 0.696. Giá trị p đi kèm là 0.416, cho thấy rằng ảnh hưởng của Cases đến quản trị lợi nhuận là có ý nghĩa thống kê ở mức 10\%. Hệ số hồi quy dương và có ý nghĩa thống kê cho thấy rằng khi tỷ lệ số ca nhiễm tăng, quản trị lợi nhuận (EM) cũng tăng. Điều này có thể được hiểu là trong bối cảnh số ca nhiễm COVID-19 gia tăng, các công ty có thể có động lực hoặc bị buộc phải quản lý lợi nhuận của mình chặt chẽ hơn để đối phó với những bất ổn kinh tế do đại dịch gây ra. Cho thấy có sự gia tăng trong hoạt động quản trị lợi nhuận so với các năm khác, điều này có thể phản ánh sự phục hồi hoặc các biện pháp quản trị mới sau đại dịch. Có nghĩa rằng môi trường kinh doanh nhiều rủi ro và bất ổn gây ra bởi "cú sốc" có quy mô và tính chất chưa từng có của đại dịch COVID-19 càng tạo động lực cho các nhà quản trị thực hiện quản trị lợi nhuận.
+\subsection{Nhận xét}
+Với mô hình tác động cố định (Fixed effects model), kết quả từ các phân tích hồi quy đã chỉ ra rằng trong giai đoạn Covid-19, các công ty có khuynh hướng quản trị lợi nhuận nhiều hơn trong giai đoạn tiền COVID-19. Kết quả này ngụ ý rằng môi trường kinh doanh khó khăn, rủi ro và nhiều biến động do đại dịch COVID-19 gây ra là tác nhân thúc đẩy quản trị lợi nhuận tại các công ty phi tài chính tại Việt Nam. Do đó, nghiên cứu góp phần bổ sung bằng chứng thực nghiệm cho các nghiên cứu trước đây về ảnh hưởng của đại dịch COVID-19 đến các mặt hoạt động của công ty. Từ đó làm cơ sở cho các nhà đầu tư và các bên hữu quan (ngân hàng, nhà cung cấp, khách hàng, công ty kiểm toán...) trong việc ra các quyết định quan trọng dựa trên thông tin trên báo cáo tài chính.
+\section{Kết luận}
+Việc xác định các yếu tố ảnh hưởng đến hành vi quản trị lợi nhuận (Earnings Management - EM) đóng vai trò quan trọng đối với thị trường tài chính. Thông tin bất cân xứng do EM gây ra có thể dẫn đến những rủi ro không mong muốn cho nhà đầu tư khi họ rót vốn vào doanh nghiệp có tình hình tài chính bị bóp méo. Mặc dù việc sử dụng các biện pháp điều chỉnh lợi nhuận tại Việt Nam chưa được quy định cụ thể bởi luật pháp, nhưng trên thực tế, đây có thể được xem như một dạng gian lận kế toán với những hậu quả tiêu cực. Nói cách khác, nhà quản trị doanh nghiệp sử dụng EM như một công cụ để "tô điểm" cho báo cáo tài chính, vi phạm đạo đức kinh doanh và gây tổn hại đến thị trường.\\
+\indent Dựa trên mô hình hồi quy với bộ dữ liệu gồm 6.229 quan sát từ 648 doanh nghiệp phi tài chính niêm yết trên Sở Giao dịch Chứng khoán Hà Nội và TP. Hồ Chí Minh, nghiên cứu cho thấy xu hướng điều chỉnh lợi nhuận giảm thay vì tăng trong giai đoạn 2014 - 2023. Kết quả nghiên cứu cho thấy doanh nghiệp quy mô lớn, tốc độ tăng trưởng cao có xu hướng sử dụng EM nhiều hơn so với các doanh nghiệp nhỏ hơn, tăng trưởng chậm hơn. Doanh nghiệp hoạt động trong lĩnh vực sản xuất, phân phối hàng hóa cơ bản, nhu yếu phẩm có mức độ EM thấp hơn đáng kể so với các ngành dịch vụ và doanh thu có tính chu kỳ. Ngoài ra, doanh nghiệp hoạt động trong lĩnh vực nhiều rủi ro và nhạy cảm với tác động tiêu cực từ thị trường có xu hướng sử dụng EM cao hơn. Xu hướng EM theo hướng giảm doanh thu cho thấy những điểm tối về tính minh bạch trong hoạt động kinh doanh của doanh nghiệp tại Việt Nam.\\
+\indent Hạn chế của nghiên cứu này là chỉ sử dụng 5 biến độc lập phổ biến để đại diện cho các yếu tố tài chính doanh nghiệp nhằm giải thích hành vi EM. Tuy nhiên, cần ghi nhận rằng EM là một hành vi phức tạp. Do đó, trong tương lai, nghiên cứu có thể mở rộng để xác định thêm các yếu tố ảnh hưởng đến EM, bao gồm yếu tố ngoại vi như chính trị, cơ cấu sở hữu vốn, quản trị doanh nghiệp,... từ đó phát triển mô hình hoàn thiện hơn về cách đo lường và đánh giá chất lượng lợi nhuận theo các yếu tố riêng biệt của từng doanh nghiệp.\\
+\indent Bên cạnh đó, đại dịch Covid-19 đã có ảnh hưởng tiêu cực đến hoạt động quản trị lợi nhuận của các công ty niêm yết tại Việt Nam. Gây ra nhiều gián đoạn cho nền kinh tế, dẫn đến sự bất ổn định và rủi ro cao hơn cho các doanh nghiệp. Số ca nhiễm Covid-19 càng cao, mức độ bất ổn và rủi ro cho doanh nghiệp càng lớn, dẫn đến việc các nhà quản trị càng có xu hướng điều chỉnh lợi nhuận nhiều hơn. Các công ty niêm yết cần có những biện pháp phù hợp để ứng phó với đại dịch và giảm thiểu tác động tiêu cực của nó đến hoạt động kinh doanh.
+\newpage
+\begin{thebibliography}{99}
+\bibitem{1} P. T. B. Vân, ``\emph{Các cách đo lường sự trung thực của chỉ tiêu lợi nhuận}", Tạp chí ngân hàng. \text{1}, 29 (2013).
+\bibitem{2} A.Y. Zang, ``\emph{Evidence on the Trade-Off between Real Activities Manipulation and Accrual-Based Earnings Management}", The Accounting Review \text{87}, 675-703 (2012).
+\bibitem{3} K. Schipper ``\emph{Commentary on Earnings Management}", Accounting Harizons \text{91}, 102 (1989).
+\bibitem{4} A. Levitt, ``\emph{The number game," Securities and Exchange Comission (SEC)}", New York (1998).
+\bibitem{5} P. M. Healy, J. M. Wahlen, ``\emph{A Review of the Earnings Management Literature and Its Implications for Standard Setting}", Accounting Horizon \text{13}, 365-384 (1999).
+\bibitem{6} Dechow, P. M., Sloan, R. G., \& Sweeney, A. P, ``\emph{Causes and consequences of earnings manipulation: An analysis of firms subject to enforcement actions by the SEC}",Contemporary Accounting Research, \text{13(1)}, 1–36 (1996)
+\bibitem{7} DeAngelo, H., DeAngelo, L., \& Skinner, D. J, ``\emph{Accounting choice in troubled companies}",Journal of Accounting and Economics, \text{17(1–2)}, 113–143 (1994)
+\bibitem{8} Dechow, P. M., Sloan, R. G., \& Sweeney, A. P, ``\emph{Detecting Earnings Management}", The Accounting Review \text{70(2)}, 193–225 (1995).
+\bibitem{9} Cohen, D. A., \& Zarowin, P, ``\emph{Accrual-based and real earnings management activities around seasoned equity offerings}", Journal of Accounting and Economics \text{50(1)}, 2-19 (2010).
+\bibitem{10} Daniel, N. D., Denis, D. J., \& Naveen, L., ``\emph{Do firms manage earnings to meet dividend thresholds?}", Journal of Accounting and Economics \text{45(1)}, 2-26 (2008).
+\bibitem{11} Walker, M., ``\emph{How far can we trust earnings numbers? What research tells us about earnings management}", Accounting and Business Research \text{43(4)}, 445–481 (2013).
+\bibitem{12} Đỗ Thùy Linh, Vũ Hùng Phương ``\emph{Đo lường mức độ quản trị lợi nhuận: Nghiên cứu thực nghiệm tại các công ty niêm yết}", Tạp chí Kinh tế và Phát triển \text{312}, 38-48 (2023).
+\bibitem{13} Jones, J. J., ``\emph{Earnings  management  during  import  relief  investigations}", Journal of Accounting Research \text{29(2)}, 193-228 (1991).
+\bibitem{14} Kothari, S. P.,  Leone, A. J., \& Wasley, C. E. ``\emph{Performance matched discretionary accrual measures}", Journal of Accounting and Economics \text{39(1)}, 163-197 (2005).
+\bibitem{15} Gul, F. A., Fung, S. Y. K., \& Jaggi, B.,``\emph{Earnings quality: Some evidence on the role of auditor tenure and auditors’ industry expertise}", Journal of Accounting and Economics \text{47(3)}, 265–287 (2009).
+\bibitem{16} Defond, M. L., \& Jiambalvo, J.,``\emph{Debt covenant violation and manipulation of accruals}", Journal of Accounting and Economics \text{17(1)}, 145-176 (1994).
+\bibitem{17} Watts, R., \& Zimmerman, J., \& Jaggi, B.,``\emph{Positive accounting theory: A 10 year perspective}", AccountingReview \text{65(1)}, 131–156 (1990).
+\bibitem{18} Jelinek, K.,``\emph{The Effect of Leverage Increases on Earnings Management}", Journal of Business \& Economic Studies \text{13(2)}, 24–46 (2007).
+\bibitem{19} Burgstahler, D., \&  Dichev, I.,``\emph{Earnings management to avoid earnings decreases and losses}", Journal of Accounting and Economics \text{24(1)}, 99-126 (1997).
+\bibitem{20} Shen, C.H and Chinh, H.L., ``\emph{Earnings Management and Corporate Governance in Asia's Emerging Markets}", The Authors Journal compolation \text{15(5)}, 999-1021 (2007).
+\bibitem{21} Nguyễn Đỗ Quyên, Trần Quốc Hoàng ``\emph{Hành vi quản trị lợi nhuận và hiệu quả hoạt động của các doanh nghiệp niêm yết trên thị trường chứng khoán Việt Nam}", Tạp chí KTĐN \text{99}, (2018).
+\bibitem{22} Nguyễn Đỗ Quyên, Lê Ngọc Mai ``\emph{Nghiên cứu tác động của quản trị lợi nhuận tới khả năng phá sản của các doanh nghiệp niêm yết tại Việt Nam}", Tạp chí Quản lý và Kinh tế quốc tế \text{140}, (2021).
+\bibitem{23} Anh, T. N. T. (n.d.) ``\emph{View of COVID-19 PANDEMIC AND EARNINGS MANAGEMENT}", Tạp chí khoa học và kinh tế \text{10(03)}, (2022)
+\bibitem{24} Bose, S., Shams, S., Ali, M. J., \& Mihret, D, ``\emph{COVID‐19 impact, sustainability performance and firm value: international evidence}", Accounting \& Finance (2021)
+\bibitem{25} Chen, H., Liu, S., Liu, X. \& Wang, J. ``\emph{Opportunistic timing of management earnings forecasts during the COVID-19 crisis in China}", Accounting and Finance \text{62}, 166-168 (2022).
+\bibitem{26} Choi, J.H., Kim, J.B., \& Lee, J. J. ``\emph{Value relevance of discretionary accruals in the Asian financial crisis of 1997–1998}", Journal of Accounting and Public Policy \text{30(2)}, 166-187 (2011).
+\bibitem{27} Shen, H., Fu, M., Pan, H., Yu, Z., \& Chen, Y. ``\emph{The impact of the COVID-19 pandemic on firm performance. Emerging Markets Finance}", Emerging Markets Finance \& Trade \text{56(10)}, 2213-2230 (2020).
+
+\end{thebibliography}
+\end{document} 
